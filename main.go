@@ -3,42 +3,50 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/niomwungeri-fabrice/hue-v2-api/cmd"
 	"os"
-
-	"github.com/niomwungeri-fabrice/hue-v2-api/hue"
 )
 
 func main() {
-
-	// Define command-line flags with default values
-	baseURL := flag.String("base-url", "https://api.meethue.com", "Base URL for the Hue API")
-	bearerToken := flag.String("bearer-token", "", "Bearer token for the Hue API")
-	hueApplicationKey := flag.String("hue-application-key", "", "Hue application key")
-
-	// Parse the flags
-	flag.Parse()
-
-	if *hueApplicationKey == "" {
-		fmt.Println("Warning: --hue-application-key is not provided, some features may not work correctly")
+	flag.Usage = func() {
+		fmt.Println("Usage:")
+		fmt.Println("  hue-v2-api [command] [flags]")
+		fmt.Println("")
+		fmt.Println("Available Commands:")
+		fmt.Println("  --devices     Get list of devices")
+		fmt.Println("  --lights      Get list of lights")
+		// Add more commands here
+		fmt.Println("")
+		fmt.Println("Flags:")
+		flag.PrintDefaults()
 	}
 
-	// Validate the baseURL and hueApplicationKey
-	if *baseURL == "" {
-		fmt.Println("Error: --base-url is required")
+	devicesCommand := flag.NewFlagSet("devices", flag.ExitOnError)
+	baseURL := devicesCommand.String("base-url", "https://api.meethue.com", "Base URL for the Hue API")
+	bearerToken := devicesCommand.String("bearer-token", "", "Bearer token for the Hue API")
+	hueApplicationKey := devicesCommand.String("hue-application-key", "", "Hue application key")
+
+	//lightsCommand := flag.NewFlagSet("lights", flag.ExitOnError)
+	//lBaseURL := lightsCommand.String("base-url", "https://api.meethue.com", "Base URL for the Hue API")
+	//lBearerToken := lightsCommand.String("bearer-token", "", "Bearer token for the Hue API")
+	//lHueApplicationKey := lightsCommand.String("hue-application-key", "", "Hue application key")
+
+	if len(os.Args) < 2 {
 		flag.Usage()
 		os.Exit(1)
 	}
 
-	// Create a new Hue API client
-	client, err := hue.NewClient(*baseURL, *bearerToken, *hueApplicationKey)
-	if err != nil {
-		fmt.Println("Error:", err)
+	switch os.Args[1] {
+	case "--devices":
+		devicesCommand.Parse(os.Args[2:])
+		cmd.GetDevicesCmd(*baseURL, *bearerToken, *hueApplicationKey)
+	case "--lights":
+		//lightsCommand.Parse(os.Args[2:])
+		//cmd.GetLightsCmd(*lBaseURL, *lBearerToken, *lHueApplicationKey)
+	// Add more cases here for additional commands
+	default:
+		fmt.Printf("Unknown command: %s\n", os.Args[1])
+		flag.Usage()
 		os.Exit(1)
 	}
-	devices, err := client.GetDevices(false)
-	if err != nil {
-		fmt.Println("error:", err)
-		return
-	}
-	fmt.Println(hue.JsonConverter(devices))
 }
