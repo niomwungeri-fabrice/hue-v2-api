@@ -54,7 +54,7 @@ func main() {
 ```
 ## Running Tests
 ```sh
-go test ./... -v
+ go test ./hue -v
 ```
 
 ## Coming Soon
