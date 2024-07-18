@@ -22,5 +22,7 @@ go.work
 go.work.sum
 
 # IDEA
-
 .idea
+
+#build
+hue-v2-api

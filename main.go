@@ -21,15 +21,10 @@ func main() {
 		flag.PrintDefaults()
 	}
 
-	devicesCommand := flag.NewFlagSet("devices", flag.ExitOnError)
-	baseURL := devicesCommand.String("base-url", "https://api.meethue.com", "Base URL for the Hue API")
-	bearerToken := devicesCommand.String("bearer-token", "", "Bearer token for the Hue API")
-	hueApplicationKey := devicesCommand.String("hue-application-key", "", "Hue application key")
-
-	//lightsCommand := flag.NewFlagSet("lights", flag.ExitOnError)
-	//lBaseURL := lightsCommand.String("base-url", "https://api.meethue.com", "Base URL for the Hue API")
-	//lBearerToken := lightsCommand.String("bearer-token", "", "Bearer token for the Hue API")
-	//lHueApplicationKey := lightsCommand.String("hue-application-key", "", "Hue application key")
+	commands := flag.NewFlagSet("devices", flag.ExitOnError)
+	baseURL := commands.String("base-url", "https://api.meethue.com", "Base URL for the Hue API")
+	bearerToken := commands.String("bearer-token", "", "Bearer token for the Hue API")
+	hueApplicationKey := commands.String("hue-application-key", "", "Hue application key")
 
 	if len(os.Args) < 2 {
 		flag.Usage()
@@ -38,14 +33,14 @@ func main() {
 
 	switch os.Args[1] {
 	case "--devices":
-		devicesCommand.Parse(os.Args[2:])
+		commands.Parse(os.Args[2:])
 		cmd.GetDevicesCmd(*baseURL, *bearerToken, *hueApplicationKey)
 	case "--lights":
-		//lightsCommand.Parse(os.Args[2:])
-		//cmd.GetLightsCmd(*lBaseURL, *lBearerToken, *lHueApplicationKey)
+		commands.Parse(os.Args[2:])
+		cmd.GetLightsCmd(*baseURL, *bearerToken, *hueApplicationKey)
 	// Add more cases here for additional commands
 	default:
-		fmt.Printf("Unknown command: %s\n", os.Args[1])
+		fmt.Printf("unknown command: %s\n", os.Args[1])
 		flag.Usage()
 		os.Exit(1)
 	}

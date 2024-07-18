@@ -6,11 +6,12 @@ import (
 	"net/http"
 )
 
-// HueDevices response from discovering hue's devices
+// Devices list of devices available for the user
 type Devices struct {
 	Errors []interface{} `json:"errors"`
 	Data   []Device      `json:"data"`
 }
+
 type Device struct {
 	ID          string `json:"id"`
 	IDV1        string `json:"id_v1,omitempty"`
@@ -35,6 +36,7 @@ type Device struct {
 	Type string `json:"type"`
 }
 
+// GetDevices client to get devices. Devices have device level properties and offer services such as light.
 func (c *Client) GetDevices(removeBridge bool) (*Devices, error) {
 	req, err := c.newRequest("GET", "/clip/v2/resource/device")
 	if err != nil {
