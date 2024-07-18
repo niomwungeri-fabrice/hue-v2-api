@@ -20,6 +20,12 @@ To install the package, use:
 ```sh
 go get github.com/yourusername/hue-v2-api
 ```
+
+## Command Line Usage
+
+```sh
+./hue-v2-api -devices --hue-application-key={username} --base-url={bridge-ip-address}
+```
 ## Available Clients
 
 ### GetDevices
