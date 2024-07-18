@@ -2,7 +2,7 @@
 
 This project provides a Golang package to interact `quickly` with the Philips Hue API v2. It includes functions to discover and manage Hue devices, with built-in local bridge interactions.
 
-## Prerequisit
+## Prerequisite
 - Get your bridge IP: https://developers.meethue.com/develop/application-design-guidance/hue-bridge-discovery/
 - Get your Username: [https://developers.meethue.com/develop/hue-api-v2/cloud2cloud-getting-started/](https://developers.meethue.com/develop/hue-api-v2/getting-started/)
 
@@ -71,4 +71,7 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ## Resources:
 - https://developers.meethue.com/develop/hue-api-v2/
+
+## End Goal
+Turn into the standard way of connecting to the Phillips hue v2 API. In other words production ready.
 
