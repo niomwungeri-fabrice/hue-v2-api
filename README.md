@@ -1,6 +1,7 @@
 # hue-v2-api
 
 [![MIT License](https://img.shields.io/badge/license-MIT-9370d8.svg?style=flat)](https://opensource.org/licenses/MIT)
+[![Build and Test](https://github.com/niomwungeri-fabrice/hue-v2-api/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/niomwungeri-fabrice/hue-v2-api/actions/workflows/build-and-test.yml)
 
 This project provides a Golang package to interact `quickly` with the Philips Hue API v2. It includes functions to
 discover and manage Hue devices, with built-in local bridge interactions.
