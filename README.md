@@ -211,7 +211,7 @@ Retrieve a list of devices. To execute this command, use the following syntax:
 Example:
 
 ```sh
-./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --get --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250
+./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --get --hue-application-key=<username|hue-application-key> --base-url=https://10.0.0.250
 ```
 
 Response:
@@ -267,7 +267,7 @@ Retrieve details of a specific device. Use the following syntax:
 Example:
 
 ```sh
-./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --get --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250
+./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --get --hue-application-key=<username|hue-application-key> --base-url=https://10.0.0.250
 ```
 
 Response:
@@ -323,7 +323,7 @@ Update the details of a specific device. Use the following syntax:
 Example:
 
 ```sh
-./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --put --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250 --payload='{"metadata":{"name":"Smart Work Desk"}}'
+./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --put --hue-application-key=<username|hue-application-key> --base-url=https://10.0.0.250 --payload='{"metadata":{"name":"Smart Work Desk"}}'
 ```
 
 Response:
@@ -342,7 +342,7 @@ Delete a specific device. Use the following syntax:
 Example:
 
 ```sh
-./hue-v2-api devices --del --id=a97e30cf-cfaf-45ff-9e82-58f0c9fd8d97 --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250
+./hue-v2-api devices --del --id=a97e30cf-cfaf-45ff-9e82-58f0c9fd8d97 --hue-application-key=<username|hue-application-key> --base-url=https://10.0.0.250
 ```
 
 Response:
