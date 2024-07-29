@@ -119,7 +119,7 @@ type Light struct {
 
 // GetLights client to get light services. These are offered by devices with lighting capabilities.
 func (c *Client) GetLights() (*Lights, error) {
-	req, err := c.newRequest("GET", "/clip/v2/resource/light")
+	req, err := c.newRequest("GET", "/clip/v2/resource/light", nil)
 	if err != nil {
 		return nil, err
 	}

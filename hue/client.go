@@ -4,6 +4,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -48,9 +49,9 @@ func NewClient(baseURL, bearerToken, hueApplicationKey string) (*Client, error) 
 	}, nil
 }
 
-func (c *Client) newRequest(method, url string) (*http.Request, error) {
+func (c *Client) newRequest(method, url string, updateRequest io.Reader) (*http.Request, error) {
 	fullURL := c.baseURL + url
-	req, err := http.NewRequest(method, fullURL, nil)
+	req, err := http.NewRequest(method, fullURL, updateRequest)
 	if err != nil {
 		return nil, err
 	}

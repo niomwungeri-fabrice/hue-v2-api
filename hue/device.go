@@ -3,14 +3,10 @@ package hue
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"io"
 	"net/http"
 )
-
-// Devices list of devices available for the user
-type Devices struct {
-	Errors []interface{} `json:"errors"`
-	Data   []Device      `json:"data"`
-}
 
 type Device struct {
 	ID          string `json:"id"`
@@ -36,9 +32,21 @@ type Device struct {
 	Type string `json:"type"`
 }
 
-// GetDevices client to get devices. Devices have device level properties and offer services such as light.
-func (c *Client) GetDevices(removeBridge bool) (*Devices, error) {
-	req, err := c.newRequest("GET", "/clip/v2/resource/device")
+// DeviceList list of devices available for the user
+type DeviceList struct {
+	Errors []interface{} `json:"errors"`
+	Data   []Device      `json:"data"`
+}
+
+// DeviceDetails details of one device
+type DeviceDetails struct {
+	Errors []interface{} `json:"errors"`
+	Data   []Device      `json:"data"`
+}
+
+// GetDevices get list of devices
+func (c *Client) GetDevices(removeBridge bool) (*DeviceList, error) {
+	req, err := c.newRequest(http.MethodGet, "/clip/v2/resource/device", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -52,11 +60,80 @@ func (c *Client) GetDevices(removeBridge bool) (*Devices, error) {
 		return nil, errors.New("failed to get devices")
 	}
 
-	var devices *Devices
+	var devices *DeviceList
 	err = json.NewDecoder(res.Body).Decode(&devices)
 	if err != nil {
 		return nil, err
 	}
 	// TODO: work on how to filter out bridge
 	return devices, nil
+}
+
+// GetDevice get device details
+func (c *Client) GetDevice(deviceID string) (*DeviceDetails, error) {
+	req, err := c.newRequest(http.MethodGet, fmt.Sprintf("/clip/v2/resource/device/%s", deviceID), nil)
+	if err != nil {
+		return nil, err
+	}
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return nil, errors.New("failed to get device")
+	}
+	var device *DeviceDetails
+	err = json.NewDecoder(res.Body).Decode(&device)
+	if err != nil {
+		return nil, err
+	}
+	return device, nil
+}
+
+// DeleteDevice delete a device
+func (c *Client) DeleteDevice(deviceID string) (*DeleteResponse, error) {
+	req, err := c.newRequest(http.MethodDelete, fmt.Sprintf("/clip/v2/resource/device/%s", deviceID), nil)
+	if err != nil {
+		return nil, err
+	}
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return nil, errors.New("failed to get device")
+	}
+
+	var deleteResponse *DeleteResponse
+	err = json.NewDecoder(res.Body).Decode(&deleteResponse)
+	if err != nil {
+		return nil, err
+	}
+	return deleteResponse, nil
+}
+
+// UpdateDevice update device
+func (c *Client) UpdateDevice(deviceID string, updateBody io.Reader) error {
+	req, err := c.newRequest(http.MethodPut, fmt.Sprintf("/clip/v2/resource/device/%s", deviceID), updateBody)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(req)
+
+	res, err := c.httpClient.Do(req)
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return errors.New("failed to update device")
+	}
+	fmt.Println("Successfully updated device")
+	return nil
 }
