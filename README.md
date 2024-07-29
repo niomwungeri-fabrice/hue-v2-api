@@ -38,22 +38,7 @@ go mod download
 go build -o {build-name}
 ```
 
-## Command Line Usage
-
-- More description to come
-- add structure
-
-## Usages
-
-### CLI usage: GetDevices
-
-Fetches the list of devices connected to the Hue bridge.
-
-```shell
-./{build-name} devices --get --hue-application-key={hue-application-key} --base-url=https://{bridge_ip_address}
-```
-
-### Client usage: GetDevices
+### Sample Client Usage
 
 Fetches the list of devices connected to the Hue bridge.
 
@@ -206,6 +191,174 @@ Success sample response:
   ]
 }
 ```
+
+# Managing Devices with Hue V2 API
+
+This repository contains a Go client for managing devices through the Hue API v2. The client provides functionalities to get, update, and delete devices. Below are the details and usage instructions for each command.
+
+## Usage
+
+Each client has its own command line for managing devices. Below are the available commands:
+
+### Get Devices
+
+Retrieve a list of devices. To execute this command, use the following syntax:
+
+```sh
+./hue-v2-api devices --get --hue-application-key=<your-hue-application-key> --base-url=<your-base-url>
+```
+
+Example:
+
+```sh
+./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --get --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250
+```
+
+Response:
+```json
+{
+  "errors": [],
+  "data": [
+    {
+      "id": "6f563b60-1ccd-43a4-83fd-0b6d1a91a341",
+      "id_v1": "/lights/6",
+      "product_data": {
+        "model_id": "LOM010",
+        "manufacturer_name": "Signify Netherlands B.V.",
+        "product_name": "Hue smart plug",
+        "product_archetype": "plug",
+        "certified": true,
+        "software_version": "1.116.3",
+        "hardware_platform_type": "100b-11a"
+      },
+      "metadata": {
+        "name": "Smart Work Desk",
+        "archetype": "plug"
+      },
+      "identify": {},
+      "services": [
+        {
+          "rid": "3b9bfeb9-41df-4336-aada-8b315679dc47",
+          "rtype": "zigbee_connectivity"
+        },
+        {
+          "rid": "8896cd7d-53b9-4037-a7eb-32be10cba0f4",
+          "rtype": "light"
+        },
+        {
+          "rid": "e1445ce4-24cb-4f45-a6c5-9bf135b2be8a",
+          "rtype": "device_software_update"
+        }
+      ],
+      "type": "device"
+    }
+  ]
+}
+```
+
+### Get Device
+
+Retrieve details of a specific device. Use the following syntax:
+
+```sh
+./hue-v2-api devices --id=<device-id> --get --hue-application-key=<your-hue-application-key> --base-url=<your-base-url>
+```
+
+Example:
+
+```sh
+./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --get --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250
+```
+
+Response:
+```json
+{
+  "errors": [],
+  "data": [
+    {
+      "id": "6f563b60-1ccd-43a4-83fd-0b6d1a91a341",
+      "id_v1": "/lights/6",
+      "product_data": {
+        "model_id": "LOM010",
+        "manufacturer_name": "Signify Netherlands B.V.",
+        "product_name": "Hue smart plug",
+        "product_archetype": "plug",
+        "certified": true,
+        "software_version": "1.116.3",
+        "hardware_platform_type": "100b-11a"
+      },
+      "metadata": {
+        "name": "Smart Work Desk",
+        "archetype": "plug"
+      },
+      "identify": {},
+      "services": [
+        {
+          "rid": "3b9bfeb9-41df-4336-aada-8b315679dc47",
+          "rtype": "zigbee_connectivity"
+        },
+        {
+          "rid": "8896cd7d-53b9-4037-a7eb-32be10cba0f4",
+          "rtype": "light"
+        },
+        {
+          "rid": "e1445ce4-24cb-4f45-a6c5-9bf135b2be8a",
+          "rtype": "device_software_update"
+        }
+      ],
+      "type": "device"
+    }
+  ]
+}
+```
+
+### Update Device
+
+Update the details of a specific device. Use the following syntax:
+
+```sh
+./hue-v2-api devices --id=<device-id> --put --hue-application-key=<your-hue-application-key> --base-url=<your-base-url> --payload='<json-payload>'
+```
+
+Example:
+
+```sh
+./hue-v2-api devices --id=6f563b60-1ccd-43a4-83fd-0b6d1a91a341 --put --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250 --payload='{"metadata":{"name":"Smart Work Desk"}}'
+```
+
+Response:
+```sh
+Successfully updated device
+```
+
+### Delete Device
+
+Delete a specific device. Use the following syntax:
+
+```sh
+./hue-v2-api devices --del --id=<device-id> --hue-application-key=<your-hue-application-key> --base-url=<your-base-url>
+```
+
+Example:
+
+```sh
+./hue-v2-api devices --del --id=a97e30cf-cfaf-45ff-9e82-58f0c9fd8d97 --hue-application-key=cwKDTPeE9JocnsT23acDgIybkFPrSJnMiLV05QgJ --base-url=https://10.0.0.250
+```
+
+Response:
+```json
+{
+  "errors": [],
+  "data": [
+    {
+      "rid": "a97e30cf-cfaf-45ff-9e82-58f0c9fd8d97",
+      "rtype": "device"
+    }
+  ]
+}
+```
+
+Feel free to use these commands to manage your Hue devices efficiently. For any issues or further inquiries, please refer to the [documentation](https://developers.meethue.com/develop/hue-api-v2/).
 
 ## Running Tests
 
